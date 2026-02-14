@@ -1,0 +1,75 @@
+# 🚀 UPLOAD THESE FILES TO GITHUB NOW
+
+## ✅ Files Fixed:
+1. ✅ requirements.txt - Created with all needed packages
+2. ✅ main.py - Fixed file path to work on Streamlit Cloud
+3. ⚠️ alarms1.xlsx - Copy to project folder if you want to include sample data
+
+---
+
+## 📤 How to Upload to GitHub:
+
+### **Option 1: GitHub Web Interface (Easiest)**
+
+1. Go to: https://github.com/hazemblg/5g-alarm-dashboard
+
+2. Click **"Add file"** → **"Upload files"**
+
+3. Drag and drop these files:
+   - `requirements.txt` (from this folder)
+   - `main.py` (from this folder - updated version)
+   - `alarms1.xlsx` (optional - if you want sample data)
+
+4. Commit message: `Fix deployment - add requirements and fix file path`
+
+5. Click **"Commit changes"**
+
+---
+
+### **Option 2: Git Command Line**
+
+Open PowerShell in this folder and run:
+
+```powershell
+# Add the fixed files
+git add requirements.txt main.py
+
+# Optional: Add data file if you want sample data in cloud
+# git add alarms1.xlsx
+
+# Commit changes
+git commit -m "Fix deployment - add requirements and fix file path"
+
+# Push to GitHub
+git push origin main
+```
+
+---
+
+## ⏱️ After Upload:
+
+1. **Streamlit will auto-redeploy** (takes ~2 minutes)
+2. **Check your app**: https://5g-alarm-dashboard-hazemblg.streamlit.app
+3. **If you didn't upload alarms1.xlsx**, the app will show a file uploader
+
+---
+
+## 📊 What Was Fixed:
+
+✅ **requirements.txt added** - Installs plotly, pandas, numpy, etc.
+✅ **File path fixed** - Works on cloud and locally
+✅ **File uploader added** - Fallback if data file not found
+
+---
+
+## 🎯 Your App Will Now:
+
+- ✅ Load on Streamlit Cloud without errors
+- ✅ Allow file upload if alarms1.xlsx is missing
+- ✅ Work on mobile devices
+- ✅ Be accessible from anywhere
+
+---
+
+**Go to GitHub now and upload the files!** 🚀
+
