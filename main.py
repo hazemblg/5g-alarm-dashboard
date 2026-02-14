@@ -425,8 +425,30 @@ window.addEventListener('appinstalled', () => {
 
 @st.cache_data
 def load_data():
-    path = r"C:\Users\t14\Downloads\alarms1.xlsx"
-    df = pd.read_excel(path, header=5).iloc[:, :18]
+    import os
+
+    # Try different paths for local and cloud deployment
+    possible_paths = [
+        "alarms1.xlsx",  # Same folder (for Streamlit Cloud)
+        r"C:\Users\t14\Downloads\alarms1.xlsx",  # Local path
+        "data/alarms1.xlsx",  # Data subfolder
+    ]
+
+    path = None
+    for p in possible_paths:
+        if os.path.exists(p):
+            path = p
+            break
+
+    if path is None:
+        st.error("❌ Fichier alarms1.xlsx introuvable! Veuillez télécharger le fichier.")
+        uploaded_file = st.file_uploader("📁 Télécharger le fichier Excel des alarmes", type=['xlsx'])
+        if uploaded_file is not None:
+            df = pd.read_excel(uploaded_file, header=5).iloc[:, :18]
+        else:
+            st.stop()
+    else:
+        df = pd.read_excel(path, header=5).iloc[:, :18]
 
     df.columns = [
         'Root_Alarm', 'Severity', 'Alarm_Name', 'First_Occurrence', 'Last_Occurrence',
