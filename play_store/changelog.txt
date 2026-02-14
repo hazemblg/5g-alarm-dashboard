@@ -1,0 +1,9 @@
+Version 1.0.0 (2026-02-13)
+• Initial release
+• 4 specialized dashboards (Management, Radio, FH, Energy)
+• Real-time alarm monitoring
+• Interactive data visualizations
+• KPI tracking
+• Mobile-responsive design
+• PWA support with offline capability
+• Dark theme optimized for 24/7 NOC operations

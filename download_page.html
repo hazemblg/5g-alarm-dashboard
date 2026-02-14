@@ -1,0 +1,290 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRS 5G Alarm Management - Install</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0e1117, #1e293b, #0e1117);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .logo {
+            font-size: 64px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        h1 {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+        
+        .section {
+            margin: 30px 0;
+        }
+        
+        .section h2 {
+            color: #3b82f6;
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h2::before {
+            content: "▸";
+            margin-right: 10px;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+        
+        .qr-container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            margin: 20px 0;
+        }
+        
+        .features {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .features li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            color: #cbd5e1;
+        }
+        
+        .features li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 12px;
+        }
+        
+        .instructions {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .instructions h3 {
+            color: #3b82f6;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .instructions ol {
+            color: #cbd5e1;
+            margin-left: 20px;
+        }
+        
+        .instructions ol li {
+            margin: 8px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .btn {
+                font-size: 16px;
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🚨</div>
+        <h1>DRS 5G Alarm Management</h1>
+        <p class="subtitle">Professional Network Monitoring Dashboard</p>
+        
+        <div class="section">
+            <h2>📱 Install on Your Device</h2>
+            <div class="buttons">
+                <a href="http://192.168.1.12:8502" class="btn" target="_blank">
+                    🌐 Open Web App
+                </a>
+                <button class="btn btn-secondary" onclick="showInstructions()">
+                    📥 Installation Guide
+                </button>
+            </div>
+        </div>
+        
+        <div class="qr-container">
+            <p style="color: #1e293b; font-weight: 600; margin-bottom: 10px;">
+                Scan QR Code to Install
+            </p>
+            <img src="dashboard_qr_code.png" alt="QR Code" style="max-width: 250px;">
+        </div>
+        
+        <div class="section">
+            <h2>✨ Features</h2>
+            <ul class="features">
+                <li>4 Specialized Dashboards (Management, Radio, FH, Energy)</li>
+                <li>Real-time Alarm Monitoring & Analysis</li>
+                <li>Interactive Data Visualizations</li>
+                <li>KPI Tracking (MTTR, Availability)</li>
+                <li>Mobile-Responsive Design</li>
+                <li>Offline Support (PWA)</li>
+                <li>Professional Dark Theme for 24/7 Operations</li>
+            </ul>
+        </div>
+        
+        <div class="instructions" id="androidInstructions" style="display: none;">
+            <h3>📱 Android Installation</h3>
+            <ol>
+                <li>Open the web app link in <strong>Chrome</strong></li>
+                <li>Tap the menu icon (⋮) in the top right</li>
+                <li>Select <strong>"Add to Home screen"</strong></li>
+                <li>Tap <strong>"Add"</strong></li>
+                <li>✅ The app icon will appear on your home screen!</li>
+            </ol>
+        </div>
+        
+        <div class="instructions" id="iosInstructions" style="display: none;">
+            <h3>📱 iPhone Installation</h3>
+            <ol>
+                <li>Open the web app link in <strong>Safari</strong></li>
+                <li>Tap the Share button (📤) at the bottom</li>
+                <li>Scroll down and tap <strong>"Add to Home Screen"</strong></li>
+                <li>Tap <strong>"Add"</strong></li>
+                <li>✅ The app icon will appear on your home screen!</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Target Users</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Perfect for Network Operations Center (NOC) engineers, 5G network administrators, 
+                telecom support teams, network managers, and field technicians.
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>🆓 100% Free | 🔒 Secure | 📱 Mobile-Optimized</p>
+            <p style="margin-top: 10px;">
+                DRS - Direction Réseaux et Services
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        function showInstructions() {
+            const android = document.getElementById('androidInstructions');
+            const ios = document.getElementById('iosInstructions');
+            
+            if (android.style.display === 'none') {
+                android.style.display = 'block';
+                ios.style.display = 'block';
+            } else {
+                android.style.display = 'none';
+                ios.style.display = 'none';
+            }
+        }
+        
+        // Detect mobile device
+        if (/Android/i.test(navigator.userAgent)) {
+            document.getElementById('androidInstructions').style.display = 'block';
+        } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            document.getElementById('iosInstructions').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
