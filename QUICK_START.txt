@@ -1,0 +1,191 @@
+╔══════════════════════════════════════════════════════════════╗
+║          DRS ALARMS 5G - QUICK START GUIDE                   ║
+╚══════════════════════════════════════════════════════════════╝
+
+✅ AUTHENTICATION IS NOW ENABLED AND CONNECTED!
+
+═══════════════════════════════════════════════════════════════
+  HOW TO START THE SYSTEM
+═══════════════════════════════════════════════════════════════
+
+Option 1: AUTOMATIC (Recommended)
+──────────────────────────────────
+  Double-click: start.bat
+
+  This will:
+  - Start Flask login server (port 5000)
+  - Start Streamlit dashboard (port 8501)
+  - Open login page in browser
+
+
+Option 2: MANUAL
+──────────────────────────────────
+  Terminal 1:
+  > python app.py
+
+  Terminal 2:
+  > streamlit run main.py
+
+  Then open: http://localhost:5000
+
+
+═══════════════════════════════════════════════════════════════
+  LOGIN CREDENTIALS
+═══════════════════════════════════════════════════════════════
+
+  👤 Admin:
+     Username: admin
+     Password: admin123
+     Role: Administrator (Full Access)
+
+  👤 Hazem:
+     Username: hazemblg
+     Password: hazem1234
+     Role: Administrator (Full Access)
+
+  👤 Operator:
+     Username: operator
+     Password: operator123
+     Role: Operator (Limited Access)
+
+
+═══════════════════════════════════════════════════════════════
+  COMPLETE LOGIN FLOW
+═══════════════════════════════════════════════════════════════
+
+  Step 1: Open http://localhost:5000
+          ↓
+  Step 2: Enter username and password
+          ↓
+  Step 3: Click "Login" button
+          ↓
+  Step 4: System verifies credentials
+          ↓
+  Step 5: JWT token is generated
+          ↓
+  Step 6: Browser redirects to:
+          http://localhost:8501/?token=xxxxx
+          ↓
+  Step 7: Streamlit verifies token
+          ↓
+  Step 8: Dashboard loads with your user info
+          ↓
+  Step 9: You see your name and role in header
+          ↓
+  Step 10: Select dashboard type (Management/Radio/FH/Energy)
+
+
+═══════════════════════════════════════════════════════════════
+  WHAT YOU'LL SEE AFTER LOGIN
+═══════════════════════════════════════════════════════════════
+
+  Dashboard Selection Page:
+  ┌────────────────────────────────────────────────┐
+  │ 👋 Welcome, Admin                     [Logout] │
+  │ 📧 admin@orange.com | 🔐 Role: admin           │
+  ├────────────────────────────────────────────────┤
+  │                                                 │
+  │        🚨 DRS Alarm Management                 │
+  │                                                 │
+  │  [Management]  [Radio RAN]  [FH]  [Énergie]   │
+  │                                                 │
+  └────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════
+  DASHBOARD FEATURES
+═══════════════════════════════════════════════════════════════
+
+  ✅ User info displayed (name, email, role)
+  ✅ Logout button in top right
+  ✅ 4 dashboard types to choose from
+  ✅ Real-time alarm monitoring
+  ✅ Data visualizations
+  ✅ KPI metrics
+  ✅ Session management
+  ✅ 8-hour token validity
+
+
+═══════════════════════════════════════════════════════════════
+  TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════
+
+  Problem: Login page doesn't load
+  Solution: Make sure Flask is running (python app.py)
+
+  Problem: "Access Denied" on dashboard
+  Solution: Make sure you logged in through port 5000
+
+  Problem: "Invalid token" error
+  Solution: Token expired, login again
+
+  Problem: Can't see dashboard after login
+  Solution: Make sure Streamlit is running (streamlit run main.py)
+
+  Problem: Ports already in use
+  Solution: Close other apps using ports 5000 or 8501
+
+
+═══════════════════════════════════════════════════════════════
+  SECURITY FEATURES
+═══════════════════════════════════════════════════════════════
+
+  🔒 JWT token-based authentication
+  🔒 8-hour automatic session expiration
+  🔒 Secure token verification on every page
+  🔒 Session cleared on logout
+  🔒 Redirect to login for unauthorized access
+  🔒 Token removed from URL after verification
+
+
+═══════════════════════════════════════════════════════════════
+  FILE STRUCTURE
+═══════════════════════════════════════════════════════════════
+
+  app.py                 → Flask login server
+  main.py                → Streamlit dashboard (protected)
+  config.py              → Configuration & secrets
+  start.bat              → Easy startup script
+
+  templates/
+    login.html           → Login page
+
+  static/
+    css/login.css        → Login styles
+    js/login.js          → Login logic
+
+
+═══════════════════════════════════════════════════════════════
+  IMPORTANT NOTES
+═══════════════════════════════════════════════════════════════
+
+  ⚠️  Keep both server windows open while using the system
+  ⚠️  Don't close Flask or Streamlit terminals
+  ⚠️  Use start.bat for easiest startup
+  ⚠️  Login expires after 8 hours of inactivity
+  ⚠️  Always logout when finished
+
+
+═══════════════════════════════════════════════════════════════
+  TESTING THE SYSTEM
+═══════════════════════════════════════════════════════════════
+
+  Run test script:
+  > python test_login_flow.py
+
+  This will verify:
+  - Flask server is running
+  - Streamlit server is running
+  - Login API works
+  - JWT tokens are valid
+
+
+╔══════════════════════════════════════════════════════════════╗
+║                    SYSTEM IS READY!                          ║
+║                                                              ║
+║  Run: start.bat                                             ║
+║  Open: http://localhost:5000                                ║
+║  Login: admin / admin123                                    ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+

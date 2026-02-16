@@ -1,10 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DRS Alarms 5G Orange</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
-$END$
+    <div class="login-container">
+        <div class="login-box">
+            <div class="logo-section">
+                <h1>🚨 DRS Alarms</h1>
+                <p>5G Network Monitoring System</p>
+                <p class="subtitle">Orange Tunisia</p>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <h2>Sign In</h2>
+
+                <div id="errorMessage" class="error-message hidden"></div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required
+                           placeholder="Enter your username" autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required
+                           placeholder="Enter your password" autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span id="loginText">Login</span>
+                    <span id="loginLoader" class="loader hidden"></span>
+                </button>
+            </form>
+
+            <div class="demo-credentials">
+                <p><strong>🔑 Demo Credentials:</strong></p>
+                <p><strong>Admin:</strong> <code>admin</code> / <code>admin123</code></p>
+                <p><strong>Hazem:</strong> <code>hazemblg</code> / <code>hazem1234</code></p>
+                <p><strong>Operator:</strong> <code>operator</code> / <code>operator123</code></p>
+            </div>
+
+            <div class="login-footer">
+                <p>&copy; 2026 Orange Tunisia - DRS Alarms Dashboard</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
-</html>
+</html
