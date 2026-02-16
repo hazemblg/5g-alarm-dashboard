@@ -619,89 +619,86 @@ window.addEventListener('appinstalled', () => {
 # LOAD DATA
 
 @st.cache_data
+def load_data_from_file(file_path):
+    """Load data from a specific file path"""
+    df = pd.read_excel(file_path, header=5, engine='openpyxl')
+    if df.shape[1] > 18:
+        df = df.iloc[:, :18]
+
+    # Assign column names
+    df.columns = [
+        'Root_Alarm', 'Severity', 'Alarm_Name', 'First_Occurrence', 'Last_Occurrence',
+        'Duplication_Count', 'Alarm_Type', 'Alarm_Group', 'Location', 'Node',
+        'Managed_Object', 'Managed_Object_Instance', 'Agent', 'Manager',
+        'Alarm_Sequence_Number', 'Additional_Text', 'Acknowledgement_Status', 'Subnet'
+    ]
+
+    # Convert data types
+    df['First_Occurrence'] = pd.to_datetime(df['First_Occurrence'], errors='coerce')
+    df['Last_Occurrence'] = pd.to_datetime(df['Last_Occurrence'], errors='coerce')
+    df['Duplication_Count'] = pd.to_numeric(df['Duplication_Count'], errors='coerce')
+
+    # Drop rows with all NaN values
+    df = df.dropna(how='all')
+
+    return df
+
 def load_data():
+    """Load data with file uploader if needed (not cached)"""
     import os
 
-    try:
-        # Try different paths for local and cloud deployment
-        possible_paths = [
-            "alarms1.xlsx",  # Same folder (for Streamlit Cloud)
-            r"C:\Users\t14\Downloads\alarms1.xlsx",  # Local path
-            "data/alarms1.xlsx",  # Data subfolder
-        ]
+    # Try different paths for local and cloud deployment
+    possible_paths = [
+        "alarms1.xlsx",  # Same folder (for Streamlit Cloud)
+        r"C:\Users\t14\Downloads\alarms1.xlsx",  # Local path
+        "data/alarms1.xlsx",  # Data subfolder
+    ]
 
-        path = None
-        for p in possible_paths:
-            if os.path.exists(p):
-                path = p
-                break
+    path = None
+    for p in possible_paths:
+        if os.path.exists(p):
+            path = p
+            break
 
-        if path is None:
-            st.warning("⚠️ Fichier alarms1.xlsx introuvable! Veuillez télécharger le fichier.")
-            uploaded_file = st.file_uploader("📁 Télécharger le fichier Excel des alarmes", type=['xlsx'])
-            if uploaded_file is not None:
-                df = pd.read_excel(uploaded_file, header=5, engine='openpyxl')
-                if df.shape[1] > 18:
-                    df = df.iloc[:, :18]
-            else:
-                st.info("💡 Conseil: Téléchargez votre fichier Excel d'alarmes pour commencer.")
-                st.stop()
-        else:
-            # Read Excel with explicit engine and error handling
-            df = pd.read_excel(path, header=5, engine='openpyxl')
+    if path is not None:
+        try:
+            return load_data_from_file(path)
+        except Exception as e:
+            st.error(f"❌ Erreur lors du chargement du fichier: {str(e)}")
+
+    # File not found - show uploader
+    st.warning("⚠️ Fichier alarms1.xlsx introuvable! Veuillez télécharger le fichier.")
+    uploaded_file = st.file_uploader("📁 Télécharger le fichier Excel des alarmes", type=['xlsx'])
+
+    if uploaded_file is not None:
+        try:
+            df = pd.read_excel(uploaded_file, header=5, engine='openpyxl')
             if df.shape[1] > 18:
                 df = df.iloc[:, :18]
 
-        # Assign column names
-        df.columns = [
-            'Root_Alarm', 'Severity', 'Alarm_Name', 'First_Occurrence', 'Last_Occurrence',
-            'Duplication_Count', 'Alarm_Type', 'Alarm_Group', 'Location', 'Node',
-            'Managed_Object', 'Managed_Object_Instance', 'Agent', 'Manager',
-            'Alarm_Sequence_Number', 'Additional_Text', 'Acknowledgement_Status', 'Subnet'
-        ]
+            df.columns = [
+                'Root_Alarm', 'Severity', 'Alarm_Name', 'First_Occurrence', 'Last_Occurrence',
+                'Duplication_Count', 'Alarm_Type', 'Alarm_Group', 'Location', 'Node',
+                'Managed_Object', 'Managed_Object_Instance', 'Agent', 'Manager',
+                'Alarm_Sequence_Number', 'Additional_Text', 'Acknowledgement_Status', 'Subnet'
+            ]
 
-        # Convert data types
-        df['First_Occurrence'] = pd.to_datetime(df['First_Occurrence'], errors='coerce')
-        df['Last_Occurrence'] = pd.to_datetime(df['Last_Occurrence'], errors='coerce')
-        df['Duplication_Count'] = pd.to_numeric(df['Duplication_Count'], errors='coerce')
+            df['First_Occurrence'] = pd.to_datetime(df['First_Occurrence'], errors='coerce')
+            df['Last_Occurrence'] = pd.to_datetime(df['Last_Occurrence'], errors='coerce')
+            df['Duplication_Count'] = pd.to_numeric(df['Duplication_Count'], errors='coerce')
+            df = df.dropna(how='all')
 
-        # Drop rows with all NaN values
-        df = df.dropna(how='all')
-
-        # Validate data
-        if len(df) == 0:
-            st.error("❌ Le fichier Excel est vide ou mal formaté!")
-            st.stop()
-
-        return df
-
-    except Exception as e:
-        st.error(f"❌ Erreur lors du chargement du fichier: {str(e)}")
-        st.info("💡 Veuillez vérifier que le fichier Excel est valide et correctement formaté.")
-
-        # Provide file uploader as fallback
-        uploaded_file = st.file_uploader("📁 Télécharger un fichier Excel valide", type=['xlsx'])
-        if uploaded_file is not None:
-            try:
-                df = pd.read_excel(uploaded_file, header=5, engine='openpyxl')
-                if df.shape[1] > 18:
-                    df = df.iloc[:, :18]
-                df.columns = [
-                    'Root_Alarm', 'Severity', 'Alarm_Name', 'First_Occurrence', 'Last_Occurrence',
-                    'Duplication_Count', 'Alarm_Type', 'Alarm_Group', 'Location', 'Node',
-                    'Managed_Object', 'Managed_Object_Instance', 'Agent', 'Manager',
-                    'Alarm_Sequence_Number', 'Additional_Text', 'Acknowledgement_Status', 'Subnet'
-                ]
-                df['First_Occurrence'] = pd.to_datetime(df['First_Occurrence'], errors='coerce')
-                df['Last_Occurrence'] = pd.to_datetime(df['Last_Occurrence'], errors='coerce')
-                df['Duplication_Count'] = pd.to_numeric(df['Duplication_Count'], errors='coerce')
-                df = df.dropna(how='all')
-                return df
-            except Exception as upload_error:
-                st.error(f"❌ Erreur lors du chargement: {str(upload_error)}")
+            if len(df) == 0:
+                st.error("❌ Le fichier Excel est vide ou mal formaté!")
                 st.stop()
-        else:
+
+            return df
+        except Exception as e:
+            st.error(f"❌ Erreur lors du chargement: {str(e)}")
             st.stop()
+    else:
+        st.info("💡 Conseil: Téléchargez votre fichier Excel d'alarmes pour commencer.")
+        st.stop()
 
 df = load_data()
 
