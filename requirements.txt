@@ -1,7 +1,10 @@
-streamlit>=1.31.0
-pandas>=2.2.0
-plotly>=5.18.0
-openpyxl>=3.1.2
-numpy>=1.26.3
-python-dateutil>=2.8.2
-
+streamlit
+pandas
+plotly
+openpyxl
+flask
+flask-bcrypt
+flask-jwt-extended
+psycopg2-binary
+python-dotenv
+pyjwt

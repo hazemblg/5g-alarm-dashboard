@@ -5,15 +5,210 @@ import plotly.graph_objects as go
 from datetime import datetime
 import numpy as np
 
-
-# PAGE CONFIG
-
+# PAGE CONFIG - Must be the first Streamlit command
 st.set_page_config(
     page_title="DRS - 5G Alarm Management System",
     page_icon="🚨",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# User credentials database
+USERS = {
+    "admin": {"password": "admin123", "role": "Admin", "email": "admin@orange.tn", "full_name": "Administrator"},
+    "hazemblg": {"password": "hazem1234", "role": "Engineer", "email": "hazem.benbelgacem@enetcom.u-sfax.tn", "full_name": "Hazem Ben Belgacem"},
+    "operator": {"password": "operator123", "role": "Operator", "email": "operator@orange.tn", "full_name": "Network Operator"}
+}
+
+# Initialize session state
+if 'authenticated' not in st.session_state:
+    st.session_state.authenticated = False
+if 'username' not in st.session_state:
+    st.session_state.username = ""
+if 'user_role' not in st.session_state:
+    st.session_state.user_role = ""
+if 'email' not in st.session_state:
+    st.session_state.email = ""
+if 'full_name' not in st.session_state:
+    st.session_state.full_name = ""
+
+def verify_login(username, password):
+    """Verify user credentials"""
+    if username in USERS and USERS[username]["password"] == password:
+        return True, USERS[username]
+    return False, None
+
+def logout():
+    """Logout user"""
+    st.session_state.authenticated = False
+    st.session_state.username = ""
+    st.session_state.user_role = ""
+    st.session_state.email = ""
+    st.session_state.full_name = ""
+    st.rerun()
+
+def show_login_page():
+    """Display the login page with custom styling"""
+
+    # Custom CSS for login page
+    st.markdown("""
+        <style>
+        /* Hide Streamlit default elements */
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        
+        /* Login page styles */
+        .stApp {
+            background: linear-gradient(135deg, #0e1117 0%, #1e293b 50%, #0e1117 100%) !important;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .logo-title {
+            font-size: 2.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        
+        .logo-subtitle {
+            color: #94a3b8;
+            font-size: 1em;
+            margin-bottom: 4px;
+        }
+        
+        .logo-orange {
+            color: #ff9500;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .demo-credentials {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+            text-align: center;
+            color: #cbd5e1;
+        }
+        
+        .demo-credentials code {
+            background: #334155;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #fbbf24;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Streamlit input styling */
+        .stTextInput > div > div > input {
+            background: #334155 !important;
+            border: 2px solid #475569 !important;
+            color: #fafafa !important;
+            padding: 14px 16px !important;
+            border-radius: 10px !important;
+            font-size: 16px !important;
+        }
+        
+        .stTextInput > div > div > input:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2) !important;
+        }
+        
+        /* Button styling */
+        .stButton > button {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+            color: white !important;
+            padding: 16px !important;
+            border: none !important;
+            border-radius: 10px !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4) !important;
+        }
+        
+        .stButton > button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6) !important;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 0.9em;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Login form
+    col1, col2, col3 = st.columns([1, 2, 1])
+
+    with col2:
+        st.markdown("""
+            <div class="logo-section">
+                <h1 class="logo-title">🚨 DRS Alarms</h1>
+                <p class="logo-subtitle">5G Network Monitoring System</p>
+                <p class="logo-orange">Orange Tunisia</p>
+            </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<h2 style='text-align: center; color: #cbd5e1; margin: 30px 0 20px 0;'>Sign In</h2>", unsafe_allow_html=True)
+
+        # Login form
+        with st.form("login_form"):
+            username = st.text_input("Username", placeholder="Enter your username", key="login_username")
+            password = st.text_input("Password", type="password", placeholder="Enter your password", key="login_password")
+
+            submit = st.form_submit_button("Login")
+
+            if submit:
+                if username and password:
+                    is_valid, user_data = verify_login(username, password)
+                    if is_valid:
+                        st.session_state.authenticated = True
+                        st.session_state.username = username
+                        st.session_state.user_role = user_data["role"]
+                        st.session_state.email = user_data["email"]
+                        st.session_state.full_name = user_data["full_name"]
+                        st.success(f"✅ Welcome {user_data['full_name']}!")
+                        st.balloons()
+                        st.rerun()
+                    else:
+                        st.error("❌ Invalid username or password")
+                else:
+                    st.warning("⚠️ Please enter both username and password")
+
+        # Demo credentials
+        st.markdown("""
+            <div class="demo-credentials">
+                <p><strong>🔑 Demo Credentials:</strong></p>
+                <p><strong>Admin:</strong> <code>admin</code> / <code>admin123</code></p>
+                <p><strong>Hazem:</strong> <code>hazemblg</code> / <code>hazem1234</code></p>
+                <p><strong>Operator:</strong> <code>operator</code> / <code>operator123</code></p>
+            </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <div class="login-footer">
+                <p>&copy; 2026 Orange Tunisia - DRS Alarms Dashboard</p>
+            </div>
+        """, unsafe_allow_html=True)
+
+# Check authentication - show login page if not authenticated
+if not st.session_state.authenticated:
+    show_login_page()
+    st.stop()
+
 
 
 # GLOBAL THEME (DARK – PREMIUM) + PWA MOBILE SUPPORT
@@ -552,6 +747,17 @@ if 'dashboard_type' not in st.session_state:
 
 # PAGE DE SÉLECTION DU DASHBOARD
 if st.session_state.dashboard_type is None:
+    # User welcome and logout
+    col_welcome1, col_welcome2 = st.columns([4, 1])
+    with col_welcome1:
+        st.markdown(f"### 👋 Welcome, **{st.session_state.get('full_name', 'User')}**")
+        st.caption(f"📧 {st.session_state.get('email', 'N/A')} | 🔐 Role: {st.session_state.get('role', 'N/A')}")
+    with col_welcome2:
+        if st.button("🚪 Logout", use_container_width=True, type="primary"):
+            logout()
+
+    st.markdown("---")
+
     st.markdown("""
     <div style='text-align: center; padding: 30px 0 40px 0;'>
         <h1 style='font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); 
@@ -602,13 +808,13 @@ if st.session_state.dashboard_type is None:
             "color": "#3b82f6",
             "gradient": "linear-gradient(135deg, #1e40af, #3b82f6)",
             "key": "mgmt",
-            "type": "Management"
+            "type": "Management",
         },
         {
             "col": col2,
             "icon": "📡",
             "title": "Radio RAN",
-            "subtitle": "    Support Radio",
+            "subtitle": "Support Radio",
             "description": "Équipements & Sites",
             "color": "#8b5cf6",
             "gradient": "linear-gradient(135deg, #6d28d9, #8b5cf6)",
@@ -642,26 +848,20 @@ if st.session_state.dashboard_type is None:
     for dashboard in dashboards:
         with dashboard["col"]:
             st.markdown(f"""
-            <div style='text-align: center; margin-bottom: 20px;'>
-                <div style='width: 180px; height: 180px; margin: 0 auto 20px auto; 
-                            background: {dashboard["gradient"]}; border-radius: 50%; 
-                            display: flex; align-items: center; justify-content: center; 
-                            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 0 8px {dashboard["color"]}20;
-                            transition: transform 0.3s ease, box-shadow 0.3s ease;
-                            cursor: pointer;'>
-                    <div style='font-size: 72px;'>{dashboard["icon"]}</div>
-                </div>
-                <h3 style='color: {dashboard["color"]}; font-size: 20px; font-weight: 700; margin-bottom: 5px;'>
-                    {dashboard["title"]}
-                </h3>
-                <p style='color: #94a3b8; font-size: 13px; margin-bottom: 3px; font-weight: 600;'>
-                    {dashboard["subtitle"]}
-                </p>
-                <p style='color: #64748b; font-size: 12px; margin-bottom: 15px;'>
-                    {dashboard["description"]}
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
+<div style='text-align: center; margin-bottom: 20px;'>
+    <div style='width: 180px; height: 180px; margin: 0 auto 20px auto; 
+                background: {dashboard["gradient"]}; border-radius: 50%; 
+                display: flex; align-items: center; justify-content: center; 
+                box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 0 8px {dashboard["color"]}20;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                cursor: pointer;'>
+        <div style='font-size: 72px;'>{dashboard["icon"]}</div>
+    </div>
+    <h3 style='color: {dashboard["color"]}; font-size: 20px; font-weight: 700; margin: 0 0 5px 10px; padding: 0; text-align: center; display: block; width: 100%;'>{dashboard["title"]}</h3>
+    <p style='color: #94a3b8; font-size: 13px; margin: 0 0 3px 0; padding: 0; font-weight: 600; text-align: center; display: block; width: 100%;'>{dashboard["subtitle"]}</p>
+    <p style='color: #64748b; font-size: 12px; margin: 0 0 15px 0; padding: 0; text-align: center; display: block; width: 100%;'>{dashboard["description"]}</p>
+</div>
+""", unsafe_allow_html=True)
 
             if st.button("Accéder →", key=dashboard["key"], use_container_width=True, type="primary"):
                 st.session_state.dashboard_type = dashboard["type"]
@@ -684,14 +884,18 @@ if st.session_state.dashboard_type is None:
 
 
 # HEADER COMMUN À TOUS LES DASHBOARDS
-col_header1, col_header2 = st.columns([3, 1])
+col_header1, col_header2, col_header3 = st.columns([3, 1, 1])
 with col_header1:
     st.markdown(f"## 🚨 Dashboard {st.session_state.dashboard_type}")
-    st.caption(f"📅 Dernière mise à jour : **{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}**")
+    user_info = f"👤 {st.session_state.get('full_name', 'User')} ({st.session_state.get('role', 'N/A')})"
+    st.caption(f"{user_info} | 📅 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 with col_header2:
     if st.button("🔙 Retour à la sélection", use_container_width=True):
         st.session_state.dashboard_type = None
         st.rerun()
+with col_header3:
+    if st.button("🚪 Déconnexion", use_container_width=True, type="primary"):
+        logout()
 
 
 # SIDEBAR FILTERS COMMUN
