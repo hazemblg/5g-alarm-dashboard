@@ -223,6 +223,7 @@ st.markdown("""
 <meta name="theme-color" content="#3b82f6">
 
 <style>
+
 /* Base Styles */
 html, body, [class*="css"] {
     background-color: #0e1117;
@@ -600,6 +601,111 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
     console.log('📱 Mobile device detected - optimizations applied');
 }
 
+// Custom Smooth Cursor Effect - Simple Circle
+(function() {
+    console.log('🎯 Cursor script started');
+    
+    // Skip on mobile devices
+    if (window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window) {
+        console.log('📱 Mobile device detected - cursor disabled');
+        return;
+    }
+    
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCursor);
+    } else {
+        initCursor();
+    }
+    
+    function initCursor() {
+        console.log('✨ Initializing cursor');
+        
+        // Create single cursor circle
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        cursor.style.cssText = `
+            position: fixed;
+            width: 14px;
+            height: 14px;
+            background: #ffffff;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999999;
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            opacity: 1;
+            display: block;
+            visibility: visible;
+        `;
+        document.body.appendChild(cursor);
+        
+        console.log('✅ Cursor element created:', cursor);
+        
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Smooth cursor animation with easing
+        function animate() {
+            // Smooth follow effect
+            const speed = 0.2;
+            cursorX += (mouseX - cursorX) * speed;
+            cursorY += (mouseY - cursorY) * speed;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        console.log('🔄 Animation loop started');
+        
+        // Hover effect on interactive elements
+        const interactiveElements = 'button, a, input, select, textarea, [data-testid="stButton"], .stButton, [role="button"]';
+        
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest(interactiveElements)) {
+                cursor.classList.add('hover');
+            }
+        });
+        
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest(interactiveElements)) {
+                cursor.classList.remove('hover');
+            }
+        });
+        
+        // Click effect
+        document.addEventListener('mousedown', () => {
+            cursor.classList.add('click');
+        });
+        
+        document.addEventListener('mouseup', () => {
+            cursor.classList.remove('click');
+        });
+        
+        // Hide cursor when leaving window
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+        
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '1';
+        });
+        
+        console.log('✨ Smooth white circle cursor fully activated');
+    }
+})();
+
 // Handle orientation change
 window.addEventListener('orientationchange', () => {
     setTimeout(() => {
@@ -897,21 +1003,410 @@ with col_header3:
 
 # SIDEBAR FILTERS COMMUN
 with st.sidebar:
-    st.markdown("## 🔍 Filtres")
+    st.markdown("""
+        <style>
+        /* Advanced Sidebar Styling with Glassmorphism */
+        section[data-testid="stSidebar"] {
+            background: linear-gradient(180deg, #0a0f1e 0%, #0f172a 50%, #020617 100%) !important;
+        }
+        
+        section[data-testid="stSidebar"] > div {
+            background: transparent !important;
+        }
+        
+        /* Main Filter Header with Glow Effect */
+        .filter-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #6366f1 100%);
+            padding: 20px 15px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4),
+                        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            position: relative;
+            overflow: hidden;
+            animation: headerPulse 3s ease-in-out infinite;
+        }
+        
+        .filter-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s linear infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        
+        @keyframes headerPulse {
+            0%, 100% { box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset; }
+            50% { box-shadow: 0 8px 40px rgba(59, 130, 246, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.15) inset; }
+        }
+        
+        .filter-header h2 {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+        
+        /* Filter Sections with Glass Effect */
+        .filter-section {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2),
+                        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .filter-section:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15),
+                        0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+            transform: translateY(-2px);
+        }
+        
+        .filter-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.6), transparent);
+            border-radius: 14px 14px 0 0;
+        }
+        
+        /* Section Titles with Icon Integration */
+        .filter-section-title {
+            color: #60a5fa;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+        }
+        
+        .filter-section-title::before {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background: linear-gradient(180deg, #3b82f6, #6366f1);
+            border-radius: 2px;
+        }
+        
+        /* Enhanced Input Styling */
+        .stMultiSelect > div > div {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(59, 130, 246, 0.3) !important;
+            border-radius: 10px !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .stMultiSelect > div > div:hover {
+            border-color: rgba(59, 130, 246, 0.6) !important;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2) !important;
+        }
+        
+        .stDateInput > div > div > input {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(59, 130, 246, 0.3) !important;
+            border-radius: 10px !important;
+            color: #e2e8f0 !important;
+        }
+        
+        /* Filter Badge with Glow */
+        .filter-badge {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.2));
+            color: #60a5fa;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 3px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Active Filters Summary Box */
+        .filters-active-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(16, 185, 129, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.15),
+                        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            animation: activeFilterPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes activeFilterPulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(34, 197, 94, 0.15); }
+            50% { box-shadow: 0 4px 25px rgba(34, 197, 94, 0.25); }
+        }
+        
+        .filters-active-text {
+            color: #4ade80;
+            font-weight: 700;
+            font-size: 14px;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+        }
+        
+        /* Divider Line */
+        .filter-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+            margin: 20px 0;
+        }
+        
+        /* Reset Button Enhancement */
+        .stButton > button {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2)) !important;
+            border: 1px solid rgba(239, 68, 68, 0.4) !important;
+            border-radius: 12px !important;
+            color: #fca5a5 !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1) !important;
+        }
+        
+        .stButton > button:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.3)) !important;
+            border-color: rgba(239, 68, 68, 0.6) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 25px rgba(239, 68, 68, 0.2) !important;
+        }
+        
+        /* Scrollbar Styling */
+        .stSidebar ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .stSidebar ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 10px;
+        }
+        
+        .stSidebar ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #3b82f6, #6366f1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+        
+        .stSidebar ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #2563eb, #4f46e5);
+        }
+        
+        /* Chip Button Styling */
+        .stButton > button[kind="primary"] {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(99, 102, 241, 0.3)) !important;
+            border: 1px solid rgba(59, 130, 246, 0.6) !important;
+            color: #60a5fa !important;
+            font-weight: 600 !important;
+            font-size: 13px !important;
+            padding: 8px 12px !important;
+            border-radius: 10px !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.2) !important;
+        }
+        
+        .stButton > button[kind="primary"]:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(99, 102, 241, 0.5)) !important;
+            border-color: rgba(59, 130, 246, 0.8) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4) !important;
+        }
+        
+        .stButton > button[kind="secondary"] {
+            background: rgba(30, 41, 59, 0.4) !important;
+            border: 1px solid rgba(71, 85, 105, 0.5) !important;
+            color: #94a3b8 !important;
+            font-weight: 500 !important;
+            font-size: 13px !important;
+            padding: 8px 12px !important;
+            border-radius: 10px !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .stButton > button[kind="secondary"]:hover {
+            background: rgba(30, 41, 59, 0.6) !important;
+            border-color: rgba(71, 85, 105, 0.7) !important;
+            color: #cbd5e1 !important;
+            transform: translateY(-1px) !important;
+        }
+        
+        /* Control Buttons (All/None) Styling */
+        .stButton > button[key*="_all"],
+        .stButton > button[key*="_none"] {
+            font-size: 12px !important;
+            padding: 6px 10px !important;
+            font-weight: 600 !important;
+        }
+        
+        /* Scrollable Container Styling */
+        div[style*="max-height: 200px"],
+        div[style*="max-height: 250px"] {
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
+            padding: 8px;
+            background: rgba(15, 23, 42, 0.3);
+        }
+        
+        /* Gap between chips */
+        .stButton {
+            margin-bottom: 6px !important;
+        }
+        
+        /* Reduce horizontal gap in columns */
+        [data-testid="column"] {
+            padding-left: 3px !important;
+            padding-right: 3px !important;
+        }
+        
+        /* Tighter spacing for chip rows */
+        div[data-testid="stHorizontalBlock"] {
+            gap: 6px !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
-    # Filtres de base
-    severity = st.multiselect("Sévérité", df['Severity'].unique(), df['Severity'].unique())
-    ack = st.multiselect("Statut Acquittement", df['Acknowledgement_Status'].unique(),
-                         df['Acknowledgement_Status'].unique())
-    subnet = st.multiselect("Sous-réseau", df['Subnet'].unique(), df['Subnet'].unique())
+    st.markdown("""
+        <div class='filter-header'>
+            <h2>🔍 Filtres</h2>
+        </div>
+    """, unsafe_allow_html=True)
 
-    # Filtre par date
-    st.markdown("### 📅 Période")
-    date_range = st.date_input(
-        "Sélectionner la période",
-        value=(df['First_Occurrence'].min(), df['First_Occurrence'].max()),
-        key="date_range"
+    # Section 1: Filtres de Sévérité dans un expander
+    with st.expander("🚨 Sévérité des Alarmes", expanded=True):
+        severity = st.multiselect(
+            "Sélectionner les niveaux",
+            options=df['Severity'].unique(),
+            default=list(df['Severity'].unique()),
+            key="severity_filter"
+        )
+
+    # Section 2: Statut d'Acquittement dans un expander
+    with st.expander("✅ Statut d'Acquittement", expanded=False):
+        ack = st.multiselect(
+            "Sélectionner les statuts",
+            options=df['Acknowledgement_Status'].unique(),
+            default=list(df['Acknowledgement_Status'].unique()),
+            key="ack_filter"
+        )
+
+    # Section 3: Type d'Alarme (Dashboard-specific) dans un expander
+    if st.session_state.dashboard_type is not None:
+        # Get unique alarm types for current dashboard
+        alarm_types_available = df['Alarm_Type'].dropna().unique()
+
+        if len(alarm_types_available) > 0:
+            with st.expander("📋 Types d'Alarmes Spécifiques", expanded=False):
+                alarm_type_filter = st.multiselect(
+                    "Filtrer par type d'alarme",
+                    options=sorted(alarm_types_available),
+                    default=list(alarm_types_available),
+                    key="alarm_type_filter",
+                    help="Sélectionnez des types d'alarmes spécifiques"
+                )
+        else:
+            alarm_type_filter = []
+    else:
+        alarm_type_filter = []
+
+    # Section 4: Équipements/Nodes dans un expander
+    if st.session_state.dashboard_type is not None:
+        # Get top nodes for filtering
+        top_nodes = df['Node'].value_counts().head(30).index.tolist()
+
+        with st.expander("🖥️ Équipements (Nodes)", expanded=False):
+            node_filter = st.multiselect(
+                "Filtrer par équipement",
+                options=sorted(top_nodes),
+                default=[],
+                key="node_filter",
+                help="Filtrer par équipements spécifiques (Top 30)"
+            )
+    else:
+        node_filter = []
+
+    # Section 5: Sous-réseau dans un expander
+    with st.expander("🌐 Sous-réseau", expanded=False):
+        subnet = st.multiselect(
+            "Sélectionner les sous-réseaux",
+            options=df['Subnet'].unique(),
+            default=list(df['Subnet'].unique()),
+            key="subnet_filter"
+        )
+
+    # Section 6: Période dans un expander
+    with st.expander("📅 Période d'Analyse", expanded=False):
+        date_range = st.date_input(
+            "Sélectionner la période",
+            value=(df['First_Occurrence'].min(), df['First_Occurrence'].max()),
+            key="date_range"
+        )
+
+    # Filter summary with advanced styling
+    st.markdown("<div class='filter-divider'></div>", unsafe_allow_html=True)
+
+    total_filters_active = (
+        (len(severity) < len(df['Severity'].unique())) +
+        (len(ack) < len(df['Acknowledgement_Status'].unique())) +
+        (len(subnet) < len(df['Subnet'].unique())) +
+        (len(alarm_type_filter) > 0 and len(alarm_type_filter) < len(df['Alarm_Type'].dropna().unique()) if st.session_state.dashboard_type is not None else 0) +
+        (len(node_filter) > 0)
     )
+
+    if total_filters_active > 0:
+        st.markdown(f"""
+            <div class='filters-active-box'>
+                <div style='font-size: 28px; margin-bottom: 5px;'>✓</div>
+                <span class='filters-active-text'>{total_filters_active} Filtre(s) Actif(s)</span>
+            </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+            <div style='background: rgba(59, 130, 246, 0.1); 
+                        border: 1px solid rgba(59, 130, 246, 0.3);
+                        border-radius: 12px; padding: 14px; text-align: center;'>
+                <div style='font-size: 24px; margin-bottom: 5px;'>📊</div>
+                <span style='color: #60a5fa; font-weight: 600; font-size: 13px;'>Tous les filtres actifs</span>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Reset button
+    if st.button("🔄 Réinitialiser les filtres", use_container_width=True):
+        st.rerun()
 
 # Application des filtres
 filtered = df[
@@ -920,6 +1415,15 @@ filtered = df[
     df['Subnet'].isin(subnet)
 ]
 
+# Apply alarm type filter if active
+if alarm_type_filter and len(alarm_type_filter) > 0:
+    filtered = filtered[filtered['Alarm_Type'].isin(alarm_type_filter)]
+
+# Apply node filter if active
+if node_filter and len(node_filter) > 0:
+    filtered = filtered[filtered['Node'].isin(node_filter)]
+
+# Apply date filter
 if len(date_range) == 2:
     filtered = filtered[
         (filtered['First_Occurrence'].dt.date >= date_range[0]) &
