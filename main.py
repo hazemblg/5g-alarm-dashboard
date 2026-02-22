@@ -180,18 +180,18 @@ def show_login_page():
                         st.session_state.user_role = user_data["role"]
                         st.session_state.email = user_data["email"]
                         st.session_state.full_name = user_data["full_name"]
-                        st.success(f"✅ Welcome {user_data['full_name']}!")
+                        st.success(f"Welcome {user_data['full_name']}!")
                         st.balloons()
                         st.rerun()
                     else:
-                        st.error("❌ Invalid username or password")
+                        st.error("Invalid username or password")
                 else:
-                    st.warning("⚠️ Please enter both username and password")
+                    st.warning("Please enter both username and password")
 
         # Demo credentials
         st.markdown("""
             <div class="demo-credentials">
-                <p><strong>🔑 Demo Credentials:</strong></p>
+                <p><strong>Demo Credentials:</strong></p>
                 <p><strong>Admin:</strong> <code>admin</code> / <code>admin123</code></p>
                 <p><strong>Hazem:</strong> <code>hazemblg</code> / <code>hazem1234</code></p>
                 <p><strong>Operator:</strong> <code>operator</code> / <code>operator123</code></p>
@@ -554,8 +554,8 @@ button, [data-testid="stButton"] button {
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
-            .then(reg => console.log('✅ Service Worker registered'))
-            .catch(err => console.log('❌ Service Worker registration failed:', err));
+            .then(reg => console.log('Service Worker registered'))
+            .catch(err => console.log('Service Worker registration failed:', err));
     });
 }
 
@@ -568,12 +568,12 @@ window.addEventListener('beforeinstallprompt', (e) => {
     // Show install button
     const installBtn = document.createElement('div');
     installBtn.className = 'pwa-install-prompt';
-    installBtn.innerHTML = '📱 Installer l\\'app';
+    installBtn.innerHTML = 'Installer l\\'app';
     installBtn.onclick = () => {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
-                console.log('✅ User accepted the install prompt');
+                console.log('User accepted the install prompt');
             }
             deferredPrompt = null;
             installBtn.style.display = 'none';
@@ -598,16 +598,16 @@ document.addEventListener('touchend', (event) => {
 // Optimize for mobile performance
 if (/Mobi|Android/i.test(navigator.userAgent)) {
     document.documentElement.style.setProperty('--animation-duration', '0.2s');
-    console.log('📱 Mobile device detected - optimizations applied');
+    console.log('Mobile device detected - optimizations applied');
 }
 
 // Custom Smooth Cursor Effect - Simple Circle
 (function() {
-    console.log('🎯 Cursor script started');
+    console.log('Cursor script started');
     
     // Skip on mobile devices
     if (window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window) {
-        console.log('📱 Mobile device detected - cursor disabled');
+        console.log('Mobile device detected - cursor disabled');
         return;
     }
     
@@ -619,7 +619,7 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
     }
     
     function initCursor() {
-        console.log('✨ Initializing cursor');
+        console.log('Initializing cursor');
         
         // Create single cursor circle
         const cursor = document.createElement('div');
@@ -642,7 +642,7 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
         `;
         document.body.appendChild(cursor);
         
-        console.log('✅ Cursor element created:', cursor);
+        console.log('Cursor element created:', cursor);
         
         let mouseX = 0, mouseY = 0;
         let cursorX = 0, cursorY = 0;
@@ -667,7 +667,7 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
         }
         
         animate();
-        console.log('🔄 Animation loop started');
+        console.log('Animation loop started');
         
         // Hover effect on interactive elements
         const interactiveElements = 'button, a, input, select, textarea, [data-testid="stButton"], .stButton, [role="button"]';
@@ -702,7 +702,7 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
             cursor.style.opacity = '1';
         });
         
-        console.log('✨ Smooth white circle cursor fully activated');
+        console.log('Smooth white circle cursor fully activated');
     }
 })();
 
@@ -715,7 +715,7 @@ window.addEventListener('orientationchange', () => {
 
 // Add to home screen detection
 window.addEventListener('appinstalled', () => {
-    console.log('✅ PWA installed successfully!');
+    console.log('PWA installed successfully!');
 });
 </script>
 
@@ -770,11 +770,11 @@ def load_data():
         try:
             return load_data_from_file(path)
         except Exception as e:
-            st.error(f"❌ Erreur lors du chargement du fichier: {str(e)}")
+            st.error(f"Erreur lors du chargement du fichier: {str(e)}")
 
     # File not found - show uploader
-    st.warning("⚠️ Fichier alarms1.xlsx introuvable! Veuillez télécharger le fichier.")
-    uploaded_file = st.file_uploader("📁 Télécharger le fichier Excel des alarmes", type=['xlsx'])
+    st.warning("Fichier alarms1.xlsx introuvable! Veuillez télécharger le fichier.")
+    uploaded_file = st.file_uploader("Télécharger le fichier Excel des alarmes", type=['xlsx'])
 
     if uploaded_file is not None:
         try:
@@ -795,15 +795,15 @@ def load_data():
             df = df.dropna(how='all')
 
             if len(df) == 0:
-                st.error("❌ Le fichier Excel est vide ou mal formaté!")
+                st.error("Le fichier Excel est vide ou mal formaté!")
                 st.stop()
 
             return df
         except Exception as e:
-            st.error(f"❌ Erreur lors du chargement: {str(e)}")
+            st.error(f"Erreur lors du chargement: {str(e)}")
             st.stop()
     else:
-        st.info("💡 Conseil: Téléchargez votre fichier Excel d'alarmes pour commencer.")
+        st.info("Téléchargez votre fichier Excel d'alarmes pour commencer.")
         st.stop()
 
 df = load_data()
@@ -854,9 +854,9 @@ if st.session_state.dashboard_type is None:
     col_welcome1, col_welcome2 = st.columns([4, 1])
     with col_welcome1:
         st.markdown(f"### 👋 Welcome, **{st.session_state.get('full_name', 'User')}**")
-        st.caption(f"📧 {st.session_state.get('email', 'N/A')} | 🔐 Role: {st.session_state.get('role', 'N/A')}")
+        st.caption(f"{st.session_state.get('email', 'N/A')} | Role: {st.session_state.get('role', 'N/A')}")
     with col_welcome2:
-        if st.button("🚪 Logout", use_container_width=True, type="primary"):
+        if st.button("Logout", use_container_width=True, type="primary"):
             logout()
 
     st.markdown("---")
@@ -977,8 +977,8 @@ if st.session_state.dashboard_type is None:
     <div style='text-align: center; padding: 30px; background: linear-gradient(135deg, #1e293b, #0f172a); 
                 border-radius: 16px; margin-top: 40px; border: 1px solid #334155;'>
         <p style='color: #94a3b8; font-size: 14px; margin: 0;'>
-            💡 <strong>Astuce:</strong> Utilisez les filtres latéraux pour affiner vos analyses | 
-            🔄 Les données sont mises à jour en temps réel
+            <strong>Astuce:</strong> Utilisez les filtres latéraux pour affiner vos analyses | 
+            Les données sont mises à jour en temps réel
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -990,14 +990,14 @@ if st.session_state.dashboard_type is None:
 col_header1, col_header2, col_header3 = st.columns([3, 1, 1])
 with col_header1:
     st.markdown(f"## 🚨 Dashboard {st.session_state.dashboard_type}")
-    user_info = f"👤 {st.session_state.get('full_name', 'User')} ({st.session_state.get('role', 'N/A')})"
+    user_info = f" {st.session_state.get('full_name', 'User')} ({st.session_state.get('role', 'N/A')})"
     st.caption(f"{user_info} | 📅 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 with col_header2:
-    if st.button("🔙 Retour à la sélection", use_container_width=True):
+    if st.button("🔙 ", use_container_width=True):
         st.session_state.dashboard_type = None
         st.rerun()
 with col_header3:
-    if st.button("🚪 Déconnexion", use_container_width=True, type="primary"):
+    if st.button("Déconnexion", use_container_width=True, type="primary"):
         logout()
 
 
@@ -1300,12 +1300,12 @@ with st.sidebar:
 
     st.markdown("""
         <div class='filter-header'>
-            <h2>🔍 Filtres</h2>
+            <h2>Filtres</h2>
         </div>
     """, unsafe_allow_html=True)
 
     # Section 1: Filtres de Sévérité dans un expander
-    with st.expander("🚨 Sévérité des Alarmes", expanded=True):
+    with st.expander("Sévérité des Alarmes", expanded=True):
         severity = st.multiselect(
             "Sélectionner les niveaux",
             options=df['Severity'].unique(),
@@ -1314,7 +1314,7 @@ with st.sidebar:
         )
 
     # Section 2: Statut d'Acquittement dans un expander
-    with st.expander("✅ Statut d'Acquittement", expanded=False):
+    with st.expander("Statut d'Acquittement", expanded=False):
         ack = st.multiselect(
             "Sélectionner les statuts",
             options=df['Acknowledgement_Status'].unique(),
@@ -1328,7 +1328,7 @@ with st.sidebar:
         alarm_types_available = df['Alarm_Type'].dropna().unique()
 
         if len(alarm_types_available) > 0:
-            with st.expander("📋 Types d'Alarmes Spécifiques", expanded=False):
+            with st.expander("Types d'Alarmes Spécifiques", expanded=False):
                 alarm_type_filter = st.multiselect(
                     "Filtrer par type d'alarme",
                     options=sorted(alarm_types_available),
@@ -1346,7 +1346,7 @@ with st.sidebar:
         # Get top nodes for filtering
         top_nodes = df['Node'].value_counts().head(30).index.tolist()
 
-        with st.expander("🖥️ Équipements (Nodes)", expanded=False):
+        with st.expander("Équipements (Nodes)", expanded=False):
             node_filter = st.multiselect(
                 "Filtrer par équipement",
                 options=sorted(top_nodes),
@@ -1358,7 +1358,7 @@ with st.sidebar:
         node_filter = []
 
     # Section 5: Sous-réseau dans un expander
-    with st.expander("🌐 Sous-réseau", expanded=False):
+    with st.expander("Sous-réseau", expanded=False):
         subnet = st.multiselect(
             "Sélectionner les sous-réseaux",
             options=df['Subnet'].unique(),
@@ -1367,7 +1367,7 @@ with st.sidebar:
         )
 
     # Section 6: Période dans un expander
-    with st.expander("📅 Période d'Analyse", expanded=False):
+    with st.expander("Période d'Analyse", expanded=False):
         date_range = st.date_input(
             "Sélectionner la période",
             value=(df['First_Occurrence'].min(), df['First_Occurrence'].max()),
@@ -1405,7 +1405,7 @@ with st.sidebar:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # Reset button
-    if st.button("🔄 Réinitialiser les filtres", use_container_width=True):
+    if st.button("Réinitialiser les filtres", use_container_width=True):
         st.rerun()
 
 # Application des filtres
@@ -1439,7 +1439,7 @@ if st.session_state.dashboard_type == "Management":
     kpis = calculate_kpis(filtered)
 
     # KPI Cards
-    st.markdown("<div class='section-header'><h3>📊 Indicateurs Clés de Performance</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Indicateurs Clés de Performance</h3></div>", unsafe_allow_html=True)
     k1, k2, k3, k4, k5 = st.columns(5)
 
     def kpi(col, title, value, suffix="", decimals=0):
@@ -1461,7 +1461,7 @@ if st.session_state.dashboard_type == "Management":
     kpi(k5, "Alarmes Racine", kpis['root_alarms'])
 
     # Section 1: Distribution et Tendances
-    st.markdown("<div class='section-header'><h3>📈 Distribution et Tendances</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Distribution et Tendances</h3></div>", unsafe_allow_html=True)
     c1, c2 = st.columns(2)
 
     with c1:
@@ -1495,7 +1495,7 @@ if st.session_state.dashboard_type == "Management":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 2: Analyse par Domaine
-    st.markdown("<div class='section-header'><h3>🏢 Analyse par Domaine Technique</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Analyse par Domaine Technique</h3></div>", unsafe_allow_html=True)
     c3, c4 = st.columns(2)
 
     with c3:
@@ -1527,7 +1527,7 @@ if st.session_state.dashboard_type == "Management":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 3: Analyse des Causes Racines
-    st.markdown("<div class='section-header'><h3>🔍 Analyse des Causes Racines</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Analyse des Causes Racines</h3></div>", unsafe_allow_html=True)
     c5, c6 = st.columns(2)
 
     with c5:
@@ -1583,7 +1583,7 @@ if st.session_state.dashboard_type == "Management":
     st.plotly_chart(fig, use_container_width=True)
 
     # Section 5: Tableau des Alarmes Critiques
-    st.markdown("<div class='section-header'><h3>🚨 Alarmes Critiques Non Acquittées</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Alarmes Critiques Non Acquittées</h3></div>", unsafe_allow_html=True)
     critical_alarms = filtered[
         (filtered['Severity'] == 'Critical') &
         (filtered['Acknowledgement_Status'] == 'Unacknowledged')
@@ -1608,7 +1608,7 @@ elif st.session_state.dashboard_type == "Radio":
     kpis = calculate_kpis(radio_filtered)
 
     # KPI Cards
-    st.markdown("<div class='section-header'><h3>📊 KPIs Radio RAN</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>KPIs Radio RAN</h3></div>", unsafe_allow_html=True)
     k1, k2, k3, k4, k5 = st.columns(5)
 
     def kpi(col, title, value, suffix="", decimals=0):
@@ -1630,7 +1630,7 @@ elif st.session_state.dashboard_type == "Radio":
     kpi(k5, "Disponibilité", kpis['availability'], "%", decimals=1)
 
     # Section 1: Analyse des Sites Radio
-    st.markdown("<div class='section-header'><h3>📡 Analyse des Sites Radio</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Analyse des Sites Radio</h3></div>", unsafe_allow_html=True)
     c1, c2 = st.columns(2)
 
     with c1:
@@ -1662,7 +1662,7 @@ elif st.session_state.dashboard_type == "Radio":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 2: Types d'Alarmes Radio
-    st.markdown("<div class='section-header'><h3>📊 Types d'Alarmes Radio</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Types d'Alarmes Radio</h3></div>", unsafe_allow_html=True)
     c3, c4 = st.columns(2)
 
     with c3:
@@ -1696,7 +1696,7 @@ elif st.session_state.dashboard_type == "Radio":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 3: Analyse par Localisation
-    st.markdown("<div class='section-header'><h3>🗺️ Analyse Géographique</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Analyse Géographique</h3></div>", unsafe_allow_html=True)
     c5, c6 = st.columns(2)
 
     with c5:
@@ -1726,7 +1726,7 @@ elif st.session_state.dashboard_type == "Radio":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 4: Alarmes Actives
-    st.markdown("<div class='section-header'><h3>🚨 Alarmes Radio Actives</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Alarmes Radio Actives</h3></div>", unsafe_allow_html=True)
     active_alarms = radio_filtered[
         radio_filtered['Acknowledgement_Status'] == 'Unacknowledged'
     ][['First_Occurrence', 'Severity', 'Alarm_Name', 'Node', 'Location', 'Managed_Object']].head(50)
@@ -1750,7 +1750,7 @@ elif st.session_state.dashboard_type == "FH":
     kpis = calculate_kpis(fh_filtered)
 
     # KPI Cards
-    st.markdown("<div class='section-header'><h3>📊 KPIs Transmission FH</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>KPIs Transmission FH</h3></div>", unsafe_allow_html=True)
     k1, k2, k3, k4, k5 = st.columns(5)
 
     def kpi(col, title, value, suffix="", decimals=0):
@@ -1772,7 +1772,7 @@ elif st.session_state.dashboard_type == "FH":
     kpi(k5, "Disponibilité", kpis['availability'], "%", decimals=1)
 
     # Section 1: Analyse des Liens FH
-    st.markdown("<div class='section-header'><h3>📶 Analyse des Liens de Transmission</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Analyse des Liens de Transmission</h3></div>", unsafe_allow_html=True)
     c1, c2 = st.columns(2)
 
     with c1:
@@ -1804,7 +1804,7 @@ elif st.session_state.dashboard_type == "FH":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 2: Types d'Alarmes FH
-    st.markdown("<div class='section-header'><h3>📊 Types d'Alarmes Transmission</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Types d'Alarmes Transmission</h3></div>", unsafe_allow_html=True)
     c3, c4 = st.columns(2)
 
     with c3:
@@ -1838,7 +1838,7 @@ elif st.session_state.dashboard_type == "FH":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 3: Analyse des Objets Managés
-    st.markdown("<div class='section-header'><h3>🔧 Analyse des Équipements</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Analyse des Équipements</h3></div>", unsafe_allow_html=True)
     c5, c6 = st.columns(2)
 
     with c5:
@@ -1869,7 +1869,7 @@ elif st.session_state.dashboard_type == "FH":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 4: Alarmes FH Actives
-    st.markdown("<div class='section-header'><h3>🚨 Alarmes FH Actives</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Alarmes FH Actives</h3></div>", unsafe_allow_html=True)
     active_alarms = fh_filtered[
         fh_filtered['Acknowledgement_Status'] == 'Unacknowledged'
     ][['First_Occurrence', 'Severity', 'Alarm_Name', 'Node', 'Location', 'Managed_Object']].head(50)
@@ -1893,7 +1893,7 @@ elif st.session_state.dashboard_type == "Energy":
     kpis = calculate_kpis(energy_filtered)
 
     # KPI Cards
-    st.markdown("<div class='section-header'><h3>📊 KPIs Énergie</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>KPIs Énergie</h3></div>", unsafe_allow_html=True)
     k1, k2, k3, k4, k5 = st.columns(5)
 
     def kpi(col, title, value, suffix="", decimals=0):
@@ -1947,7 +1947,7 @@ elif st.session_state.dashboard_type == "Energy":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 2: Types d'Alarmes Énergie
-    st.markdown("<div class='section-header'><h3>📊 Types d'Alarmes Énergie</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Types d'Alarmes Énergie</h3></div>", unsafe_allow_html=True)
     c3, c4 = st.columns(2)
 
     with c3:
@@ -1981,7 +1981,7 @@ elif st.session_state.dashboard_type == "Energy":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 3: Analyse des Équipements
-    st.markdown("<div class='section-header'><h3>🔌 Analyse des Équipements Énergie</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Analyse des Équipements Énergie</h3></div>", unsafe_allow_html=True)
     c5, c6 = st.columns(2)
 
     with c5:
@@ -2012,7 +2012,7 @@ elif st.session_state.dashboard_type == "Energy":
         st.plotly_chart(fig, use_container_width=True)
 
     # Section 4: Alarmes Énergie Critiques
-    st.markdown("<div class='section-header'><h3>🚨 Alarmes Énergie Actives</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'><h3>Alarmes Énergie Actives</h3></div>", unsafe_allow_html=True)
     active_alarms = energy_filtered[
         energy_filtered['Acknowledgement_Status'] == 'Unacknowledged'
     ][['First_Occurrence', 'Severity', 'Alarm_Name', 'Node', 'Location', 'Managed_Object']].head(50)
